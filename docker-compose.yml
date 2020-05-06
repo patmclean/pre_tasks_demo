@@ -1,0 +1,11 @@
+version: '3.4'
+
+services:
+  ansible-skeleton:
+    user: coder    
+    image: ansible-skeleton:1.0
+    hostname: ansible-skeleton
+    container_name: ansible-skeleton
+    build: .
+    ports:
+      - 22

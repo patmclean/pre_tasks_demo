@@ -1,0 +1,28 @@
+{
+	"name": "Ansible",
+	"dockerComposeFile": [
+		"../docker-compose.yml",
+		"docker-compose.yml"
+	],
+	"service": "ansible-skeleton",
+	"workspaceFolder": "/app",
+	"settings": { 
+		"terminal.integrated.shell.linux": "zsh"
+	},
+
+	"extensions": [
+		"ms-python.python",
+		"hookyqr.beautify",
+		"davidanson.vscode-markdownlint",
+		"christian-kohler.path-intellisense",
+		"vscoss.vscode-ansible",
+		"redhat.vscode-yaml",
+		"formulahendry.auto-rename-tag",
+		"p1c2u.docker-compose",
+		"henriiik.docker-linter",
+		"donjayamanne.githistory",
+		"eamodio.gitlens",
+		"dotjoshjohnson.xml"
+	],
+	"remoteUser": "coder"
+}

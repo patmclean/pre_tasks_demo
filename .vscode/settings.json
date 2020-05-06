@@ -1,0 +1,15 @@
+{
+    "python.pythonPath": "/usr/local/bin/python",
+    "python.linting.pycodestyleEnabled": true,    
+    "python.linting.enabled": true,
+    "python.linting.pylintArgs": ["--disable-msg", "no-member"],
+    "files.associations": {
+        "**/*.html": "html",
+    },
+    "[html]": {
+        "editor.defaultFormatter": "HookyQR.beautify"
+    },
+    "ansible.credentialsFile": "/ansible/.devcontainer/ansible-credentials.yml",
+    "yaml.format.singleQuote": true,
+
+}

@@ -1,0 +1,5209 @@
+! Info via SNMP: sysoid=1.3.6.1.4.1.9.12.3.1.3.1410,vendor=Cisco,model=Nexus 5672UP Switch,hostname=dc12sw346
+dc12sw346#show run all
+
+!Command: show running-config all
+!Time: Thu Apr  9 07:07:40 2020
+
+version 7.3(2)N1(1)
+license grace-period
+no license smart enable
+fabric-mode 10G
+
+install feature-set fabricpath
+feature-set fabricpath
+hostname dc12sw346
+
+feature telnet
+no feature http-server
+feature scp-server
+no feature sftp-server
+feature ssh
+feature tacacs+
+cfs distribute
+cfs ipv4 mcast-address 239.255.70.83
+cfs ipv6 mcast-address ff15::efff:4653
+no cfs ipv4 distribute
+no cfs ipv6 distribute
+feature udld
+feature interface-vlan
+feature lacp
+feature vpc
+feature lldp
+feature vtp
+clock protocol ntp
+
+!username ********
+!username ********
+!username ********
+no password strength-check
+!password ********
+no password prompt username
+
+banner motd #
+            ,,,,,
+            /'''\
+           ( o o )
+      -oOOO--(_)--OOOo-------------------------------------------
+
+                SWITCH: dc12sw346
+
+                      Secured system for authorized users only.
+       .oooO          Unauthorized access is strictly prohibited.
+        (   )   Oooo. All activities may be logged and monitored.
+      ---\ (----(   )--------------------------------------------
+          \_)    ) /
+                (_/
+#
+
+
+banner exec #
+#
+
+ssh login-attempts 3
+
+telnet login-attempts 3
+
+userpassphrase min-length 8 max-length 127 
+
+userpassphrase default-warntime 14 
+
+userpassphrase default-gracetime 3 
+
+userpassphrase default-lifetime 99999 
+
+ssh key rsa 1024 
+no ssh key dsa
+ip domain-lookup
+ip tacacs source-interface mgmt0
+tacacs-server test username test password test idle-time 0
+tacacs-server timeout 5
+tacacs-server deadtime 5
+!tacacs-server host ********
+!tacacs-server host ********
+aaa group server tacacs+ TACACS
+  server 147.204.66.18
+  server 147.204.66.19
+  use-vrf default
+  no source-interface
+radius-server test username test password test idle-time 0
+radius-server timeout 5
+radius-server retransmit 1
+radius-server deadtime 0
+aaa group server radius radius
+  deadtime 0
+  use-vrf default
+  no source-interface
+crypto key param rsa label dc12sw346 modulus 2048
+no vlan dot1Q tag native
+system default switchport
+system jumbomtu 9216
+no logging event link-status default
+no logging event trunk-status default
+logging event link-status enable
+logging event trunk-status enable
+no system interface shutdown
+errdisable recovery interval 300
+errdisable detect cause miscabling
+no errdisable recovery cause link-flap
+no errdisable recovery cause udld
+no errdisable recovery cause bpduguard
+errdisable detect cause loopback
+no errdisable recovery cause loopback
+no errdisable recovery cause security-violation
+no errdisable recovery cause psecure-violation
+errdisable recovery cause failed-port-state
+no errdisable recovery cause pause-rate-limit
+no errdisable recovery cause miscabling
+ip access-list 104
+  statistics per-entry
+  10 permit icmp any any
+  20 permit ip any 224.0.0.0/5
+  30 permit ip 10.118.104.0/21 10.118.110.0/23
+  40 permit ip 10.118.110.0/23 10.118.104.0/21
+ip access-list 132
+  statistics per-entry
+  10 permit icmp any any
+  20 permit ip any 224.0.0.0/5
+  30 permit ip 10.118.132.0/22 10.118.135.0/24
+  40 permit ip 10.118.135.0/24 10.118.132.0/22
+  50 permit ip 10.118.132.0/22 10.118.132.0/22
+  60 permit ip 10.118.132.0/22 10.118.135.0/24
+  70 permit ip 10.118.135.0/24 10.118.132.0/22
+ip access-list 144
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.118.144.0/22 10.118.147.0/24
+  70 permit ip 10.118.147.0/24 10.118.144.0/22
+ip access-list 160
+  statistics per-entry
+  10 permit icmp any any
+  20 permit ip any 224.0.0.0/5
+  30 permit ip 10.118.160.0/21 10.118.167.0/24
+  40 permit ip 10.118.167.0/24 10.118.160.0/21
+  50 permit ip 10.118.160.0/21 10.118.160.0/21
+  60 permit ip 10.118.160.0/21 10.118.166.0/24
+  70 permit ip 10.118.166.0/24 10.118.160.0/21
+  80 permit ip 10.118.160.0/21 10.118.167.0/24
+  90 permit ip 10.118.167.0/24 10.118.160.0/21
+ip access-list 17
+  10 permit ip 172.19.8.0/24 any
+  20 permit ip 10.17.120.0/24 any
+  30 permit ip 10.17.121.0/24 any
+  40 permit ip 10.17.122.0/24 any
+  50 permit ip 10.17.123.0/24 any
+  60 permit ip 10.16.202.0/24 any
+  70 permit ip 147.204.66.0/24 any
+  80 permit ip 10.21.104.0/24 any
+  90 permit ip 10.16.216.0/23 any
+  100 permit ip 10.16.218.0/23 any
+ip access-list 224
+  statistics per-entry
+  10 permit icmp any any
+  20 permit ip any 224.0.0.0/5
+  30 permit ip 10.118.224.0/21 10.118.230.0/23
+  40 permit ip 10.118.230.0/23 10.118.224.0/21
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.118.224.0/21 10.118.230.0/23
+  70 permit ip 10.118.230.0/23 10.118.224.0/21
+ip access-list 335
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.253.112.0/20 10.253.126.0/23
+  70 permit ip 10.253.126.0/23 10.253.112.0/20
+ip access-list 720
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 172.19.78.0/24 172.19.78.192/26
+  70 permit ip 172.19.78.192/26 172.19.78.0/24
+ip access-list 721
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 172.19.80.0/20 172.19.94.0/23
+  70 permit ip 172.19.80.0/20 172.19.93.0/24
+  80 permit ip 172.19.80.0/20 172.20.148.0/22
+  90 permit ip 172.19.80.71/32 172.19.80.228/32
+  100 permit ip 172.19.80.228/32 172.19.80.71/32
+  110 permit ip 172.19.93.0/24 172.19.80.0/20
+  120 permit ip 172.19.94.0/23 172.19.80.0/20
+  130 permit ip 172.20.148.0/22 172.19.80.0/20
+  140 permit ip 172.19.80.0/20 172.19.92.0/22
+  150 permit ip 172.19.92.0/22 172.19.80.0/20
+ip access-list 722
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 172.19.208.0/20 172.19.221.0/24
+  70 permit ip 172.19.208.0/20 172.19.222.0/23
+  80 permit ip 172.19.221.0/24 172.19.208.0/20
+  90 permit ip 172.19.222.0/23 172.19.208.0/20
+  100 permit ip 172.19.192.0/20 172.19.208.0/20
+  110 permit ip 172.19.208.0/20 172.19.192.0/20
+ip access-list 723
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.78.96.0/20 10.78.111.0/24
+  70 permit ip 10.78.111.0/24 10.78.96.0/20
+  80 permit ip 10.78.96.0/20 10.78.110.0/24
+  90 permit ip 10.78.110.0/24 10.78.96.0/20
+  100 permit ip 10.78.96.0/20 10.78.108.0/23
+  110 permit ip 10.78.108.0/23 10.78.96.0/20
+ip access-list 724
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 172.19.79.0/24 172.19.79.192/26
+  70 permit ip 172.19.79.192/26 172.19.79.0/24
+ip access-list 725
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 172.19.232.0/21 172.19.238.0/23
+  70 permit ip 172.19.238.0/23 172.19.232.0/21
+  80 permit ip 172.19.232.0/21 172.19.232.0/21
+ip access-list 726
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.78.158.0/23 10.78.159.192/26
+  70 permit ip 10.78.159.192/26 10.78.158.0/23
+ip access-list 750
+  statistics per-entry
+  10 permit ip 10.17.158.0/23 10.17.158.0/23
+  20 permit ip 10.17.120.0/22 172.19.76.0/23
+  30 permit ip 10.16.202.96/26 172.19.76.0/23
+  40 permit ip 10.18.117.0/24 172.19.76.0/23
+  50 permit ip 172.19.8.0/24 172.19.76.0/23
+  60 permit ip 172.19.72.53/32 172.19.76.0/23
+  70 permit ip 172.19.76.0/23 172.19.76.0/23
+  80 permit ip 147.204.66.0/24 172.19.76.0/23
+  90 permit ip 10.21.104.0/24 172.19.76.0/23
+  100 permit ip 172.16.28.0/23 172.19.76.0/23
+  105 permit ip 147.204.66.0/24 any
+  110 permit ip 10.21.104.0/25 10.17.158.0/23
+  120 deny ip any 10.17.158.0/23
+ip access-list 915
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.121.0.0/20 10.121.14.0/23
+  70 permit ip 10.121.14.0/23 10.121.0.0/20
+ip access-list 917
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.121.96.0/20 10.121.110.0/23
+  70 permit ip 10.121.110.0/23 10.121.96.0/20
+ip access-list 919
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.121.128.0/20 10.121.142.0/23
+  70 permit ip 10.121.142.0/23 10.121.128.0/20
+ip access-list 920
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.78.70.0/24 10.78.70.224/27
+  70 permit ip 10.78.70.224/27 10.78.70.0/24
+  80 permit ip 10.78.70.0/24 10.78.70.192/27
+  90 permit ip 10.78.70.192/27 10.78.70.0/24
+ip access-list 921
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.78.32.0/20 10.78.47.0/24
+  70 permit ip 10.78.47.0/24 10.78.32.0/20
+  80 permit ip 10.78.68.0/23 172.19.71.0/24
+  90 permit ip 172.19.71.0/24 10.78.68.0/23
+  100 permit ip 172.19.104.0/21 10.78.68.0/23
+  110 permit ip 10.78.32.0/20 10.78.44.0/23
+  120 permit ip 10.78.44.0/23 10.78.32.0/20
+ip access-list 922
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  51 permit ip 10.78.48.0/20 10.78.62.0/23
+  52 permit ip 10.78.62.0/23 10.78.48.0/20
+  60 permit ip 10.78.48.0/20 10.78.63.0/24
+  70 permit ip 10.78.63.0/24 10.78.48.0/20
+  80 permit ip 10.78.48.0/20 10.78.63.0/24
+  90 permit ip 10.78.63.0/24 10.78.48.0/20
+ip access-list 923
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.120.96.0/20 10.120.110.0/23
+  70 permit ip 10.120.110.0/23 10.120.96.0/20
+ip access-list 924
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.120.0.0/19 10.120.28.0/22
+  70 permit ip 10.120.28.0/22 10.120.0.0/19
+ip access-list 925
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.120.144.0/20 10.120.158.0/23
+  70 permit ip 10.120.158.0/23 10.120.144.0/20
+ip access-list 926
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.120.176.0/20 10.120.190.0/23
+  70 permit ip 10.120.190.0/23 10.120.176.0/20
+  80 permit ip 10.120.188.0/23 10.120.176.0/20
+  90 permit ip 10.120.176.0/20 10.120.188.0/23
+ip access-list 944
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.122.19.0/24 10.122.16.0/22
+  70 permit ip 10.122.16.0/22 10.122.19.0/24
+ip access-list 945
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.253.80.0/20 10.253.94.0/23
+  70 permit ip 10.253.94.0/23 10.253.80.0/20
+ip access-list 965
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.121.32.0/20 10.121.46.0/23
+  70 permit ip 10.121.46.0/23 10.121.32.0/20
+ip access-list 967
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.121.64.0/20 10.121.76.0/22
+  70 permit ip 10.121.76.0/22 10.121.64.0/20
+ip access-list 972
+  statistics per-entry
+  10 permit icmp any any
+  20 permit ip any 224.0.0.0/5
+  30 permit ip 10.117.17.0/24 10.117.17.192/26
+  40 permit ip 10.117.17.192/25 10.117.17.0/24
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.117.17.0/24 10.117.17.192/26
+  70 permit ip 10.117.17.192/25 10.117.17.0/24
+ip access-list 973
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.117.4.0/22 10.117.6.192/26
+  70 permit ip 10.117.6.192/26 10.117.4.0/22
+  80 permit ip 10.117.4.0/22 10.117.7.0/25
+  90 permit ip 10.117.7.0/25 10.117.4.0/22
+  100 permit ip 10.117.4.0/22 10.117.7.128/25
+  110 permit ip 10.117.7.128/25 10.117.4.0/22
+ip access-list 981
+  statistics per-entry
+  10 permit icmp any any
+  20 permit ip any 224.0.0.0/5
+  30 permit ip 10.117.24.0/22 10.117.27.128/25
+  40 permit ip 10.117.27.128/25 10.117.24.0/22
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.117.24.0/22 10.117.27.0/25
+  70 permit ip 10.117.27.0/25 10.117.24.0/22
+  80 permit ip 10.117.24.0/22 10.117.27.128/25
+  90 permit ip 10.117.27.128/25 10.117.24.0/22
+ip access-list 983
+  statistics per-entry
+  10 permit icmp any any
+  20 permit ip any 224.0.0.0/5
+  30 permit ip 10.117.64.0/19 10.117.64.0/22
+  40 permit ip 10.117.64.0/22 10.117.64.0/19
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.117.64.0/19 10.117.64.0/22
+  70 permit ip 10.117.64.0/22 10.117.64.0/19
+ip access-list 986
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.253.16.0/20 10.253.30.0/23
+  70 permit ip 10.253.30.0/23 10.253.16.0/20
+  80 permit ip 10.121.224.0/20 10.121.238.0/23
+  90 permit ip 10.121.238.0/23 10.121.224.0/20
+ip access-list 989
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.121.240.0/20 10.121.254.0/23
+  70 permit ip 10.121.254.0/23 10.121.240.0/20
+ip access-list 991
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.122.0.0/20 10.122.14.0/23
+  70 permit ip 10.122.14.0/23 10.122.0.0/20
+ip access-list 993
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.253.64.0/20 10.253.78.0/23
+  70 permit ip 10.253.78.0/23 10.253.64.0/20
+ip access-list 997
+  statistics per-entry
+  10 permit icmp any any
+  20 permit pim any any
+  30 permit 92 any any
+  40 permit 112 any any
+  50 permit ip any 224.0.0.0/5
+  60 permit ip 10.253.16.0/20 10.253.30.0/23
+  70 permit ip 10.253.30.0/23 10.253.16.0/20
+ip access-list ACL_VTY
+  10 permit ip 147.204.66.0/24 any
+  20 permit ip 10.21.104.77/32 any
+  30 permit ip 10.21.104.78/32 any
+  40 permit ip 10.17.161.192/32 any
+  50 permit ip 10.18.117.0/24 any
+vlan access-map vlan104 10
+  match ip address 104
+  action forward
+vlan access-map vlan132 10
+  match ip address 132
+  action forward
+vlan access-map vlan144 10
+  match ip address 144
+  action forward
+vlan access-map vlan160 10
+  match ip address 160
+  action forward
+vlan access-map vlan224 10
+  match ip address 224
+  action forward
+vlan access-map vlan335 10
+  match ip address 335
+  action forward
+vlan access-map vlan720 10
+  match ip address 720
+  action forward
+vlan access-map vlan721 10
+  match ip address 721
+  action forward
+vlan access-map vlan722 10
+  match ip address 722
+  action forward
+vlan access-map vlan723 10
+  match ip address 723
+  action forward
+vlan access-map vlan724 10
+  match ip address 724
+  action forward
+vlan access-map vlan725 10
+  match ip address 725
+  action forward
+vlan access-map vlan726 10
+  match ip address 726
+  action forward
+vlan access-map vlan915 10
+  match ip address 915
+  action forward
+vlan access-map vlan917 10
+  match ip address 917
+  action forward
+vlan access-map vlan919 10
+  match ip address 919
+  action forward
+vlan access-map vlan920 10
+  match ip address 920
+  action forward
+vlan access-map vlan921 10
+  match ip address 921
+  action forward
+vlan access-map vlan922 10
+  match ip address 922
+  action forward
+vlan access-map vlan923 10
+  match ip address 923
+  action forward
+vlan access-map vlan924 10
+  match ip address 924
+  action forward
+vlan access-map vlan925 10
+  match ip address 925
+  action forward
+vlan access-map vlan926 10
+  match ip address 926
+  action forward
+vlan access-map vlan944 10
+  match ip address 944
+  action forward
+vlan access-map vlan945 10
+  match ip address 945
+  action forward
+vlan access-map vlan965 10
+  match ip address 965
+  action forward
+vlan access-map vlan967 10
+  match ip address 967
+  action forward
+vlan access-map vlan972 10
+  match ip address 972
+  action forward
+vlan access-map vlan973 10
+  match ip address 973
+  action forward
+vlan access-map vlan981 10
+  match ip address 981
+  action forward
+vlan access-map vlan983 10
+  match ip address 983
+  action forward
+vlan access-map vlan986 10
+  match ip address 986
+  action forward
+vlan access-map vlan989 10
+  match ip address 989
+  action forward
+vlan access-map vlan991 10
+  match ip address 991
+  action forward
+vlan access-map vlan993 10
+  match ip address 993
+  action forward
+vlan access-map vlan997 10
+  match ip address 997
+  action forward
+vlan filter vlan921 vlan-list 921
+vlan filter vlan991 vlan-list 991
+vlan filter vlan981 vlan-list 981
+vlan filter vlan915 vlan-list 915
+vlan filter vlan917 vlan-list 917
+vlan filter vlan925 vlan-list 925
+vlan filter vlan160 vlan-list 160
+vlan filter vlan924 vlan-list 924
+vlan filter vlan989 vlan-list 989
+vlan filter vlan926 vlan-list 926
+vlan filter vlan983 vlan-list 983
+vlan filter vlan920 vlan-list 920
+vlan filter vlan922 vlan-list 922
+vlan filter vlan965 vlan-list 965
+vlan filter vlan923 vlan-list 923
+vlan filter vlan722 vlan-list 722
+vlan filter vlan972 vlan-list 972
+vlan filter vlan144 vlan-list 144
+vlan filter vlan726 vlan-list 726
+vlan filter vlan132 vlan-list 132
+vlan filter vlan967 vlan-list 967
+vlan filter vlan919 vlan-list 919
+vlan filter vlan986 vlan-list 986
+vlan filter vlan104 vlan-list 104
+vlan filter vlan997 vlan-list 997
+vlan filter vlan224 vlan-list 224
+vlan filter vlan944 vlan-list 944
+vlan filter vlan721 vlan-list 721
+vlan filter vlan724 vlan-list 724
+vlan filter vlan723 vlan-list 723
+vlan filter vlan993 vlan-list 993
+vlan filter vlan335 vlan-list 335
+vlan filter vlan725 vlan-list 725
+vlan filter vlan973 vlan-list 973
+vlan filter vlan720 vlan-list 720
+vlan filter vlan945 vlan-list 945
+qos statistics
+control-plane
+  service-policy input copp-system-policy-default 
+vtp mode transparent
+vtp file bootflash:/vlan.dat
+hardware profile multicast max-limit 8192
+no hardware profile buffer monitor sampling fast
+wrr-queue cos-map 0 0 1
+wrr-queue cos-map 1 2 3
+wrr-queue cos-map 2 4 5
+wrr-queue cos-map 3 6 7
+no system mode maintenance
+snmp-server contact 342264586:Ncons4406:1032
+snmp-server location DE-ROT-ROT13(DC2)-RZ44-R2-7-33
+snmp-server aaa-user cache-timeout 3600
+snmp-server protocol enable
+no snmp-server globalEnforcePriv
+snmp-server tcp-session auth
+!snmp-server user ********
+!snmp-server user ********
+!snmp-server host ********
+!snmp-server host ********
+!snmp-server host ********
+!snmp-server host ********
+!snmp-server host ********
+!snmp-server host ********
+snmp-server enable traps entity entity_mib_change
+snmp-server enable traps entity entity_module_status_change
+snmp-server enable traps entity entity_power_status_change
+snmp-server enable traps entity entity_module_inserted
+snmp-server enable traps entity entity_module_removed
+snmp-server enable traps entity entity_unrecognised_module
+snmp-server enable traps entity entity_fan_status_change
+snmp-server enable traps entity entity_power_out_change
+snmp-server enable traps link linkDown
+snmp-server enable traps link linkUp
+snmp-server enable traps link extended-linkDown
+snmp-server enable traps link extended-linkUp
+snmp-server enable traps link cieLinkDown
+snmp-server enable traps link cieLinkUp
+snmp-server enable traps link connUnitPortStatusChange
+snmp-server enable traps link delayed-link-state-change
+no snmp-server enable traps callhome event-notify
+no snmp-server enable traps callhome smtp-send-fail
+snmp-server enable traps cfs state-change-notif
+snmp-server enable traps cfs merge-failure
+snmp-server enable traps rf redundancy_framework
+snmp-server enable traps aaa server-state-change
+snmp-server enable traps license notify-license-expiry
+snmp-server enable traps license notify-no-license-for-feature
+snmp-server enable traps license notify-licensefile-missing
+snmp-server enable traps license notify-license-expiry-warning
+snmp-server enable traps upgrade UpgradeOpNotifyOnCompletion
+snmp-server enable traps upgrade UpgradeJobStatusNotify
+snmp-server enable traps feature-control FeatureOpStatusChange
+no snmp-server enable traps sysmgr cseFailSwCoreNotifyExtended
+snmp-server enable traps rmon risingAlarm
+snmp-server enable traps rmon fallingAlarm
+snmp-server enable traps rmon hcRisingAlarm
+snmp-server enable traps rmon hcFallingAlarm
+snmp-server enable traps config ccmCLIRunningConfigChanged
+snmp-server enable traps snmp authentication
+snmp-server enable traps link cisco-xcvr-mon-status-chg
+no snmp-server enable traps vtp notifs
+no snmp-server enable traps vtp vlancreate
+no snmp-server enable traps vtp vlandelete
+snmp-server enable traps bridge newroot
+snmp-server enable traps bridge topologychange
+no snmp-server enable traps stpx inconsistency
+no snmp-server enable traps stpx root-inconsistency
+no snmp-server enable traps stpx loop-inconsistency
+snmp-server enable traps entity entity_sensor
+no snmp-server enable traps system Clock-change-notification
+snmp-server enable traps generic coldStart
+snmp-server enable traps generic warmStart
+snmp-server enable traps feature-control ciscoFeatOpStatusChange
+no snmp-server enable traps syslog message-generated
+no snmp-server enable traps lldp lldpRemTablesChange
+!snmp-server community ********
+!snmp-server community ********
+!snmp-server community ********
+!snmp-server community ********
+callhome
+  switch-priority 7
+  destination-profile CiscoTAC-1 transport-method email
+  no destination-profile CiscoTAC-1 transport-method http
+  destination-profile CiscoTAC-1 message-size 5000000
+  destination-profile CiscoTAC-1 message-level 0
+  destination-profile full_txt transport-method email
+  no destination-profile full_txt transport-method http
+  destination-profile short_txt message-size 4000
+  destination-profile full_txt message-level 0
+  destination-profile short_txt transport-method email
+  no destination-profile short_txt transport-method http
+  destination-profile short_txt message-level 0
+  destination-profile CiscoTAC-1 alert-group Cisco-TAC
+  destination-profile full_txt alert-group All
+  destination-profile short_txt alert-group All
+  transport http use-vrf default
+  no transport http proxy enable
+  data-privacy level normal
+  no enable
+  duplicate-message throttle
+  periodic-inventory notification
+  periodic-inventory notification interval 7
+  periodic-inventory notification timeofday 08:00
+  diagnostic-signature
+    active
+    profile CiscoTAC-1
+ntp server 172.19.76.54 use-vrf SAP-IT_MGMT
+ntp server 172.19.76.55 use-vrf SAP-IT_MGMT
+ntp server 172.19.76.69 use-vrf SAP-IT_MGMT
+ntp server 172.19.76.70 use-vrf SAP-IT_MGMT
+ntp source-interface Vlan750
+no ntp allow control
+no ntp passive
+clock format 24-hours
+aaa authentication login default group TACACS local
+aaa authentication login console group TACACS local
+aaa authorization ssh-certificate default local
+aaa authorization config-commands default local
+aaa authorization commands default group TACACS local
+aaa authorization config-commands console local
+aaa authorization commands console local
+aaa accounting default local
+aaa user default-role
+aaa authentication login default fallback error local
+aaa authentication login console fallback error local
+aaa authentication login error-enable
+no aaa authentication login mschap enable
+no aaa authentication login mschapv2 enable
+no aaa authentication login chap enable
+no aaa authentication login ascii-authentication
+no radius-server directed-request
+tacacs-server directed-request
+class-map type qos class-fcoe
+class-map type qos match-any class-default
+class-map type qos match-any class-all-flood
+class-map type qos match-any class-ip-multicast
+class-map type queuing class-fcoe
+  match qos-group 1
+class-map type queuing class-default
+class-map type queuing class-all-flood
+  match qos-group 2
+class-map type queuing class-ip-multicast
+  match qos-group 2
+policy-map type qos default-in-policy
+  class class-default
+policy-map type qos fcoe-default-in-policy
+  class class-fcoe
+    set qos-group 1
+  class class-default
+policy-map type queuing default-in-policy
+  class type queuing class-default
+    bandwidth percent 100
+policy-map type queuing default-out-policy
+  class type queuing class-default
+    bandwidth percent 100
+policy-map type queuing fcoe-default-in-policy
+  class type queuing class-fcoe
+    bandwidth percent 50
+  class type queuing class-default
+    bandwidth percent 50
+policy-map type queuing fcoe-default-out-policy
+  class type queuing class-fcoe
+    bandwidth percent 50
+  class type queuing class-default
+    bandwidth percent 50
+class-map type network-qos class-fcoe
+  match qos-group 1
+class-map type network-qos class-default
+class-map type network-qos class-all-flood
+  match qos-group 2
+class-map type network-qos class-ip-multicast
+  match qos-group 2
+policy-map type network-qos jumbo
+  class type network-qos class-default
+    mtu 9216
+policy-map type network-qos default-nq-policy
+  class type network-qos class-default
+policy-map type network-qos fcoe-default-nq-policy
+  class type network-qos class-fcoe
+    pause no-drop
+    mtu 2158
+  class type network-qos class-default
+policy-map type network-qos fcoe-default-nq-policy-jumbo
+  class type network-qos class-fcoe
+    pause no-drop
+    mtu 2158
+  class type network-qos class-default
+    mtu 9216
+system qos
+  service-policy type queuing input default-in-policy
+  service-policy type queuing output default-out-policy
+  service-policy type qos input default-in-policy
+  service-policy type network-qos jumbo
+  fex queue-limit
+
+no ip source-route
+ip igmp snooping
+ip igmp snooping report-suppression
+ip igmp snooping link-local-groups-suppression
+ip igmp snooping mrouter vpc-peer-link
+vlan 1
+  mode fabricpath
+vlan 2
+  name prod-rot-dc12-nfs
+  mode fabricpath
+vlan 4, 9
+  mode fabricpath
+vlan 17
+  name prod-rot-dc12-mobile-app
+  mode fabricpath
+vlan 18
+  name prod-rot-dc12-mobile-util
+  mode fabricpath
+vlan 19
+  name prod-rot-dc12-mobile-dw
+  mode fabricpath
+vlan 20
+  name prod-rot-dc12-bizx-web
+  mode fabricpath
+vlan 21
+  name prod-rot-dc12-bizx-web02
+  mode fabricpath
+vlan 23
+  name prod-rot-dc12-misc-web
+  mode fabricpath
+vlan 24
+  name prod-rot-dc12-bizx-web03
+  mode fabricpath
+vlan 28
+  name prod-rot-dc12-wfa-web
+  mode fabricpath
+vlan 29
+  name prod-rot-dc12-rmk-web
+  mode fabricpath
+vlan 30
+  name prod-rot-dc12-app
+  mode fabricpath
+vlan 31
+  name prod-rot-dc12-app05
+  mode fabricpath
+vlan 32
+  name prod-rot-dc12-bizx-web04
+  mode fabricpath
+vlan 33
+  name prod-rot-dc12-misc-app
+  mode fabricpath
+vlan 34
+  name prod-rot-dc12-cache-svcs
+  mode fabricpath
+vlan 36
+  name Prod-Rot6-CIS
+  mode fabricpath
+vlan 38
+  name prod-rot-dc12-wfa-app
+  mode fabricpath
+vlan 39
+  name prod-rot-dc12-rmk-app
+  mode fabricpath
+vlan 40
+  name prod-rot-dc12-db
+  mode fabricpath
+vlan 41
+  name prod-rot-dc12-db-02
+  mode fabricpath
+vlan 42
+  name prod-rot-dc12-db-03
+  mode fabricpath
+vlan 43
+  name prod-rot-dc12-misc-db
+  mode fabricpath
+vlan 48
+  name prod-rot-dc12-wfa-db
+  mode fabricpath
+vlan 49
+  name prod-rot-dc12-rmk-db
+  mode fabricpath
+vlan 50
+  name prod-rot-dc12-bckp
+  mode fabricpath
+vlan 51
+  name prod-rot-dc12-hb
+  mode fabricpath
+vlan 52
+  name prod-rot-dc12-app03
+  mode fabricpath
+vlan 58
+  name prod-rot-dc12-wfa-staging
+  mode fabricpath
+vlan 59
+  name prod-rot-dc12-backoffice
+  mode fabricpath
+vlan 60
+  name PROD-ROT-DC12-CLOUDMAIL
+  mode fabricpath
+vlan 62
+  name prod-rot-dc12-sag-web
+  mode fabricpath
+vlan 63
+  name prod-rot-dc12-sag-app
+  mode fabricpath
+vlan 64
+  name prod-rot-dc12-sag-ac-web
+  mode fabricpath
+vlan 65
+  name prod-rot-dc12-sag-ac-app
+  mode fabricpath
+vlan 67
+  name prod-rot-dc12-misc-web-stg
+  mode fabricpath
+vlan 68
+  name prod-rot-dc12-misc-app-stg
+  mode fabricpath
+vlan 69
+  name prod-rot-dc12-misc-db-stg
+  mode fabricpath
+vlan 70
+  name prod-rot-dc12-ct-webapp
+  mode fabricpath
+vlan 71
+  name prod-rot-dc12-ct-worker
+  mode fabricpath
+vlan 72
+  name prod-rot-dc12-ct-whrhse
+  mode fabricpath
+vlan 73
+  name prod-rot-dc12-ct-dbsearch
+  mode fabricpath
+vlan 76
+  name prod-rot-dc12-lms-web
+  mode fabricpath
+vlan 77
+  name prod-rot-dc12-lms-app
+  mode fabricpath
+vlan 78
+  name prod-rot-dc12-lms-db
+  mode fabricpath
+vlan 79
+  name prod-rot-dc12-lms-web_staging
+  mode fabricpath
+vlan 80
+  name prod-rot-dc12-lms-app_staging
+  mode fabricpath
+vlan 81
+  name prod-rot-dc12-lms-db_staging
+  mode fabricpath
+vlan 82
+  name prod-rot-dc12-onb-web01
+  mode fabricpath
+vlan 83
+  name prod-rot-dc12-onb-app01
+  mode fabricpath
+vlan 84
+  name prod-rot-dc12-onb-db01
+  mode fabricpath
+vlan 85
+  name PROD-ROT-DC12-99-MON-UTILS
+  mode fabricpath
+vlan 88
+  name prod-rot-dc12-lms-app02
+  mode fabricpath
+vlan 90
+  name prod-rot-dc12-lms-app03
+  mode fabricpath
+vlan 92
+  name prod-rot-dc12-staging
+  mode fabricpath
+vlan 93
+  name prod-rot-dc12-staging-02
+  mode fabricpath
+vlan 96
+  name prod-rot-dc12-app04
+  mode fabricpath
+vlan 97
+  name byd-prod-rot-05-ops
+  mode fabricpath
+vlan 100
+  name console
+  mode fabricpath
+vlan 101
+  name prod-rot-99-wts-wdf
+  mode fabricpath
+vlan 102
+  name prod-rot-99-wts-rot
+  mode fabricpath
+vlan 104
+  name prod-rot-dc12-prod-stor05
+  mode fabricpath
+vlan 110
+  name sgw-virt-sync
+  mode fabricpath
+vlan 111
+  name sgw-sync-LAN-prod-Astaro
+  mode fabricpath
+vlan 113
+  name fw-sync-hana
+  mode fabricpath
+vlan 115
+  name sgw-sync-netweaver
+  mode fabricpath
+vlan 116
+  name oracle-heartbeat
+  mode fabricpath
+vlan 128
+  name prod-rot-dc12-hana-app01
+  mode fabricpath
+vlan 130
+  name prod-rot-dc12-hana-app02
+  mode fabricpath
+vlan 132
+  name prod-rot-dc12-prod-stor01
+  mode fabricpath
+vlan 136
+  name prod-rot-dc12-adm01
+  mode fabricpath
+vlan 137
+  name prod-rot-dc12-adm02
+  mode fabricpath
+vlan 144
+  name prod-rot-dc12-hana-stor01
+  mode fabricpath
+vlan 148
+  name prod-rot-dc12-hana-prod-db01
+  mode fabricpath
+vlan 150
+  name prod-rot-dc12-hana-test-db01
+  mode fabricpath
+vlan 152
+  name prod-rot-dc12-hana-app03
+  mode fabricpath
+vlan 153
+  name prod-rot-dc12-hana-app04
+  mode fabricpath
+vlan 154
+  name prod-rot-dc12-hana-app05
+  mode fabricpath
+vlan 156
+  name prod-rot-dc12-hana-prod-db02
+  mode fabricpath
+vlan 157
+  name prod-rot-dc12-hana-prod-db03
+  mode fabricpath
+vlan 160
+  name prod-rot-dc12-test-stor01
+  mode fabricpath
+vlan 168
+  name prod-rot-dc12-prod-stor02
+  mode fabricpath
+vlan 169
+  name prod-rot-dc12-prod-stor03
+  mode fabricpath
+vlan 192
+  name prod-rot-dc12-ucs-mgmt
+  mode fabricpath
+vlan 195
+  name prod-rot-dc12-jmphost
+  mode fabricpath
+vlan 196
+  name prod-rot-dc12-int-svcs
+  mode fabricpath
+vlan 197
+  name prod-rot-dc12-sec-svcs
+  mode fabricpath
+vlan 198
+  name prod-rot-dc12-mgmt-svcs
+  mode fabricpath
+vlan 201
+  name GDPR
+  mode fabricpath
+vlan 202
+  name prod-appl
+  mode fabricpath
+vlan 203
+  name PROD-ROT-DC12-INT-SVCS-2
+  mode fabricpath
+vlan 208
+  name csc-appl
+  mode fabricpath
+vlan 211
+  name fw-sync
+  mode fabricpath
+vlan 224
+  name prod-rot-dc12-prod-stor04
+  mode fabricpath
+vlan 231
+  name byd-transfer-ssl-ext-test
+  mode fabricpath
+vlan 232
+  name prod-rot-dc12-ipsecfw-inside
+  mode fabricpath
+vlan 243
+  name prod-rot-dc12-prdvpn-inside
+  mode fabricpath
+vlan 245
+  name prod-rot-dc12-infstrctr
+  mode fabricpath
+vlan 248
+  name prod-rot-dc12-lbc1-inside
+  mode fabricpath
+vlan 251
+  name prod-rot-dc12-outside
+  mode fabricpath
+vlan 253
+  name prod-rot-dc12-bypass
+  mode fabricpath
+vlan 254
+  name Prod-Rot2-BYD-NETINBANDMGMT
+  mode fabricpath
+vlan 255
+  name Transit-to-FW
+  mode fabricpath
+vlan 270
+  name byd-prod-rot2-rainbow-dmz-int
+  mode fabricpath
+vlan 271
+  name byd-prod-rot2-rainbow-dmz-ext
+  mode fabricpath
+vlan 272
+  name byd-prod-rot2-payroll-dmz-ext
+  mode fabricpath
+vlan 273
+  name byd-prod-rot2-payroll-dmz-int
+  mode fabricpath
+vlan 280
+  name byd-prod-rot2-ticketweb
+  mode fabricpath
+vlan 281
+  name byd-prod-rot2-ticketweb-02
+  mode fabricpath
+vlan 282
+  name byd-prod-rot2-sap-et
+  mode fabricpath
+vlan 300
+  name prod-rot-dc12-fw-outside
+  mode fabricpath
+vlan 301
+  name cs-stor
+  mode fabricpath
+vlan 302
+  name prod-stor
+  mode fabricpath
+vlan 303
+  name prod-rot-dc12-fw-inside
+  mode fabricpath
+vlan 317
+  name snapvault
+  mode fabricpath
+vlan 332
+  name prod-rot-dc12-hv-mgmt
+  mode fabricpath
+vlan 335
+  name PROD-ROT2-99-STOR01
+  mode fabricpath
+vlan 391
+  name jpaas-prod-storage
+  mode fabricpath
+vlan 430
+  name byd-bb-prod
+  mode fabricpath
+vlan 445
+  name byd-transfer-internet
+  mode fabricpath
+vlan 460
+  name prod-rot-dc12-cfm
+  mode fabricpath
+vlan 470
+  name prod-rot-dc12-cld-mgmt
+  mode fabricpath
+vlan 492
+  name sgw3-virt-sync
+  mode fabricpath
+vlan 493
+  name prod-rot-99-trans-vpn-prod
+  mode fabricpath
+vlan 494
+  name prod-rot-99-trans-vpn-admin
+  mode fabricpath
+vlan 495
+  name sgw2-virt-sync
+  mode fabricpath
+vlan 497
+  name vpc-keepalive
+  mode fabricpath
+vlan 498
+  name fw-a1s-sf-0102-sync
+  mode fabricpath
+vlan 504
+  name fw-ap
+  mode fabricpath
+vlan 678
+  name BYD-VLab-JPaaS-DMZ-Int-03
+  mode fabricpath
+vlan 689
+  name BYD-VLab-JPaaS-HANASandbox
+  mode fabricpath
+vlan 697
+  name BYD-VLab-JPaaS-DMZ-Int-02
+  mode fabricpath
+vlan 700
+  name byd-prod-rot2-dmz-wd-ext
+  mode fabricpath
+vlan 701
+  name byd-prod-rot2-dmz-shared-ext
+  mode fabricpath
+vlan 702
+  name byd-prod-rot2-dmz-accad-ext
+  mode fabricpath
+vlan 703
+  name byd-prod-rot2-dmz-wd-ext-2
+  mode fabricpath
+vlan 704
+  name byd-prod-rot2-dmz-wd-ext-3
+  mode fabricpath
+vlan 705
+  name byd-prod-rot2-esourcing-edmz01
+  mode fabricpath
+vlan 710
+  name byd-prod-rot2-dmz-wd-int
+  mode fabricpath
+vlan 711
+  name byd-prod-rot2-dmz-shared-int
+  mode fabricpath
+vlan 712
+  name byd-prod-rot2-dmz-accad-int
+  mode fabricpath
+vlan 713
+  name byd-prod-rot2-dmz-wd-int-2
+  mode fabricpath
+vlan 714
+  name byd-prod-rot2-esourcing-idmz01
+  mode fabricpath
+vlan 720
+  name byd-prod-rot2-storage-dmz
+  mode fabricpath
+vlan 721
+  name byd-prod-rot2-storage
+  mode fabricpath
+vlan 722
+  name byd-prod-rot2-storage-02
+  mode fabricpath
+vlan 723
+  name byd-prod-rot2-storage-payroll
+  mode fabricpath
+vlan 724
+  name byd-prod-rot2-storage-dmz-02
+  mode fabricpath
+vlan 725
+  name byd-prod-rot2-EUDP-storage
+  mode fabricpath
+vlan 726
+  name byd-prod-rot2-eudp-stor-payroll
+  mode fabricpath
+vlan 727
+  name byd-prod-rot2-storage-payroll02
+  mode fabricpath
+vlan 730
+  name byd-prod-rot2-rt
+  mode fabricpath
+vlan 731
+  name byd-prod-rot2-rt-02
+  mode fabricpath
+vlan 732
+  name byd-prod-rot2-sfin
+  mode fabricpath
+vlan 734
+  name byd-prod-rot2-EUDP-runtime
+  mode fabricpath
+vlan 735
+  name byd-prod-rot2-db
+  mode fabricpath
+vlan 736
+  name byd-prod-rot2-rt-03
+  mode fabricpath
+vlan 740
+  name byd-prod-rot2-sc
+  mode fabricpath
+vlan 741
+  name byd-prod-rot2-css
+  mode fabricpath
+vlan 750
+  name byd-prod-rot2-cis
+  mode fabricpath
+vlan 751
+  name byd-prod-rot2-cis01
+  mode fabricpath
+vlan 760
+  name byd-prod-rot2-admin-01
+  mode fabricpath
+vlan 761
+  name byd-prod-rot2-admin-vfiler-dmz
+  mode fabricpath
+vlan 762
+  name byd-prod-rot2-console
+  mode fabricpath
+vlan 763
+  name byd-prod-rot2-admin-02
+  mode fabricpath
+vlan 765
+  name prod-rot-99-inst01
+  mode fabricpath
+vlan 768
+  name byd-prod-rot2-console-03
+  mode fabricpath
+vlan 769
+  name byd-prod-rot2-console-02
+  mode fabricpath
+vlan 770
+  name byd-prod-rot2-sapstore-fe
+  mode fabricpath
+vlan 771
+  name byd-prod-rot2-sapstore-be
+  mode fabricpath
+vlan 772
+  name byd-prod-rot2-sapstore-partner
+  mode fabricpath
+vlan 773
+  name BYD-Prod-Rot2-Console-05
+  mode fabricpath
+vlan 774
+  name byd-prod-rot2-console-04
+  mode fabricpath
+vlan 775
+  name PROD-ROT2-99-ADM02
+  mode fabricpath
+vlan 780
+  name byd-prod-rot2-payroll
+  mode fabricpath
+vlan 781
+  name byd-prod-rot2-eudp-payroll
+  mode fabricpath
+vlan 782
+  name ->TEST_IDMZ-d063625
+  mode fabricpath
+vlan 783
+  name byd-prod-rot2-payroll02
+  mode fabricpath
+vlan 784
+  name byd-prod-rot2-payroll03
+  mode fabricpath
+vlan 785
+  name byd-prod-rot2-payroll04
+  mode fabricpath
+vlan 786
+  name byd-prod-rot2-eudp-payroll-02
+  mode fabricpath
+vlan 787
+  name byd-prod-rot2-payroll05
+  mode fabricpath
+vlan 788
+  name byd-prod-rot2-payroll-monitor
+  mode fabricpath
+vlan 790
+  name byd-prod-rot2-esourcing-adm01
+  mode fabricpath
+vlan 791
+  name byd-prod-rot2-esourcing-db02
+  mode fabricpath
+vlan 792
+  name byd-prod-rot2-esourcing-db01
+  mode fabricpath
+vlan 793
+  name byd-prod-rot2-esourcing-app02
+  mode fabricpath
+vlan 794
+  name byd-prod-rot2-esourcing-app01
+  mode fabricpath
+vlan 900
+  name Prod-Rot3-DMZ-Ext
+  mode fabricpath
+vlan 901
+  name Prod-Rot3-Canary-DMZ-Ext
+  mode fabricpath
+vlan 902
+  name Prod-Rot3-DMZ-Ext-02
+  mode fabricpath
+vlan 910
+  name Prod-Rot3-DMZ-Int
+  mode fabricpath
+vlan 911
+  name byd-prod-rot3-DMZ-Int-02
+  mode fabricpath
+vlan 912
+  name Prod-Rot3-DMZ-Int-03
+  mode fabricpath
+vlan 913
+  name prod-rot3-canary-dmz-int
+  mode fabricpath
+vlan 914
+  name Prod-Rot3-Sandbox-04
+  mode fabricpath
+vlan 915
+  name Prod-Rot3-Storage-Sandbox-04
+  mode fabricpath
+vlan 916
+  name prod-rot3-sandbox-05
+  mode fabricpath
+vlan 917
+  name prod-rot3-storage-sandbox-05
+  mode fabricpath
+vlan 918
+  name prod-rot3-sandbox-06
+  mode fabricpath
+vlan 919
+  name prod-rot3-storage-sandbox-06
+  mode fabricpath
+vlan 920
+  name byd-prod-rot3-storage-dmz
+  mode fabricpath
+vlan 921
+  name byd-prod-rot3-storage
+  mode fabricpath
+vlan 922
+  name byd-prod-rot3-storage-sandbox
+  mode fabricpath
+vlan 923
+  name byd-prod-rot3-storage-sandbox02
+  mode fabricpath
+vlan 924
+  name prod-rot3-canary-storage
+  mode fabricpath
+vlan 925
+  name Prod-Rot3-Storage-Sandbox-03
+  mode fabricpath
+vlan 926
+  name Prod-Rot3-HANASandbox-Storage-02
+  mode fabricpath
+vlan 930
+  name byd-prod-rot3-cis
+  mode fabricpath
+vlan 931
+  name byd-prod-rot3-iel
+  mode fabricpath
+vlan 932
+  name byd-prod-rot3-services
+  mode fabricpath
+vlan 933
+  name byd-prod-rot3-os-iel
+  mode fabricpath
+vlan 934
+  name byd-prod-rot3-os-floating
+  mode fabricpath
+vlan 935
+  name prod-rot3-canary-services
+  mode fabricpath
+vlan 936
+  name prod-rot3-canary-iel
+  mode fabricpath
+vlan 937
+  name prod-rot3-db-sync
+  mode fabricpath
+vlan 938
+  name Prod-Rot3-DB-Sync-2
+  mode fabricpath
+vlan 939
+  name Prod-Rot3-Services-02
+  mode fabricpath
+vlan 940
+  name byd-prod-rot3-admin-vfiler-dmz
+  mode fabricpath
+vlan 941
+  name byd-prod-rot3-admin
+  mode fabricpath
+vlan 942
+  name Prod-Rot3-HANASandbox-02
+  mode fabricpath
+vlan 943
+  name Prod-Rot3-Canary-Services-02
+  mode fabricpath
+vlan 944
+  name Prod-Rot3-03-BKP-STOR01
+  mode fabricpath
+vlan 945
+  name Prod-Rot3-Storage-Sandbox-07
+  mode fabricpath
+vlan 950
+  name byd-prod-rot3-applications
+  mode fabricpath
+vlan 951
+  name byd-prod-rot3-sandbox
+  mode fabricpath
+vlan 952
+  name byd-prod-rot3-shared-apps
+  mode fabricpath
+vlan 953
+  name byd-prod-rot3-hanasandbox
+  mode fabricpath
+vlan 954
+  name byd-prod-rot3-apim
+  mode fabricpath
+vlan 955
+  name prod-rot3-canary-sandbox-app
+  mode fabricpath
+vlan 956
+  name prod-rot3-canary-rt
+  mode fabricpath
+vlan 957
+  name prod-rot3-canary-hanasandbox
+  mode fabricpath
+vlan 958
+  name Prod-Rot3-Sandbox-02
+  mode fabricpath
+vlan 959
+  name Prod-Rot3-Sandbox-03
+  mode fabricpath
+vlan 960
+  name byd-prod-rot3-scc-dmz-ext
+  mode fabricpath
+vlan 961
+  name byd-prod-rot3-scc-dmz-int
+  mode fabricpath
+vlan 962
+  name byd-prod-rot3-shared-apps-dmz-e
+  mode fabricpath
+vlan 963
+  name byd-prod-rot3-shared-apps-d
+  mode fabricpath
+vlan 964
+  name prod-rot3-canary-sandbox02-app
+  mode fabricpath
+vlan 965
+  name prod-rot3-canary-storage02
+  mode fabricpath
+vlan 966
+  name Prod-Rot3-HANASandbox-03
+  mode fabricpath
+vlan 967
+  name Prod-Rot3-HANASandbox-Storage-03
+  mode fabricpath
+vlan 968
+  name Prod-Rot3-CF-DEV-HanaSandbox-01
+  mode fabricpath
+vlan 969
+  name Prod-Rot3-CF-DEV-HSandbox-Stg-01
+  mode fabricpath
+vlan 970
+  name byd-prod-rot-05-edmz01
+  mode fabricpath
+vlan 971
+  name byd-prod-rot-05-idmz01
+  mode fabricpath
+vlan 972
+  name byd-prod-rot-05-stor02
+  mode fabricpath
+vlan 973
+  name byd-prod-rot-05-stor01
+  mode fabricpath
+vlan 974
+  name byd-prod-rot-05-cis01
+  mode fabricpath
+vlan 975
+  name byd-prod-rot-05-ops01
+  mode fabricpath
+vlan 976
+  name byd-prod-rot-05-ops02
+  mode fabricpath
+vlan 977
+  name byd-prod-rot-05-adm02
+  mode fabricpath
+vlan 978
+  name byd-prod-rot-05-adm01
+  mode fabricpath
+vlan 979
+  name byd-prod-rot-05-app01
+  mode fabricpath
+vlan 980
+  name byd-prod-rot-05-app02
+  mode fabricpath
+vlan 981
+  name byd-prod-rot-05-stor03
+  mode fabricpath
+vlan 982
+  name byd-prod-rot-05-app03
+  mode fabricpath
+vlan 983
+  name byd-prod-rot-05-stor04
+  mode fabricpath
+vlan 984
+  name byd-prod-rot-05-HANASandbox
+  mode fabricpath
+vlan 985
+  name Prod-Rot3-CF-HanaSandbox-01
+  mode fabricpath
+vlan 986
+  name Prod-Rot3-CF-HanaSandbox-Stor-01
+  mode fabricpath
+vlan 987
+  name Prod-Rot3-Sandbox-07
+  mode fabricpath
+vlan 988
+  name Prod-Rot3-HANASandbox-04
+  mode fabricpath
+vlan 989
+  name Prod-Rot3-HANASandbox-Storage-04
+  mode fabricpath
+vlan 990
+  name Prod-Rot3-HANASandbox-05
+  mode fabricpath
+vlan 991
+  name Prod-Rot3-HANASandbox-Storage-05
+  mode fabricpath
+vlan 992
+  name Prod-Rot3-03-EDMZ-Ext-3
+  mode fabricpath
+vlan 993
+  name PROD-ROT3-99-STOR01
+  mode fabricpath
+vlan 994
+  name PROD-ROT3-99-ADM02
+  mode fabricpath
+vlan 995
+  name byd-prod-rot2-payroll-dmz-ext-2
+  mode fabricpath
+vlan 996
+  name PROD-ROT5-99-ADM02
+  mode fabricpath
+vlan 997
+  name PROD-ROT5-99-STOR01
+  mode fabricpath
+vlan 998
+  name Prod-Rot3-03-EDMZ-Ext-4
+  mode fabricpath
+vlan 1400
+  name byd-spec-vora-cluster-sync-1
+  mode fabricpath
+vlan 1401
+  name byd-spec-vora-cluster-sync-2
+  mode fabricpath
+vlan 1500
+  name byd-a1s-bb-transfer-bbrtr-wanrt
+  mode fabricpath
+vlan 1501
+  name byd-a1s-bb->wanrt-PCIcloudvpn
+  mode fabricpath
+vlan 2006
+  name byd-a1s-bb-transfer-wanrt-asr06
+  mode fabricpath
+vlan 2101
+  name PROD-ROT-04-STOR01
+  mode fabricpath
+vlan 2115
+  name PROD-ROT-04-STOR02
+  mode fabricpath
+
+cdp advertise v2
+cdp enable
+cdp holdtime 180
+cdp timer 60
+cdp format device-id system-name
+spanning-tree mode rapid-pvst
+spanning-tree pathcost method long
+spanning-tree port type edge default
+spanning-tree port type edge bpduguard default
+spanning-tree port type edge bpdufilter default
+no spanning-tree port type network default
+spanning-tree bridge assurance
+no spanning-tree loopguard default
+spanning-tree domain 10
+spanning-tree vlan 1-3967
+spanning-tree vlan 1-3967 priority 4096
+spanning-tree vlan 1-3967 hello-time 2
+spanning-tree vlan 1-3967 fex-hello-time 12
+spanning-tree vlan 1-3967 forward-time 15
+spanning-tree vlan 1-3967 max-age 20
+spanning-tree pseudo-information
+  vlan 1-3967 root priority 0
+no lacp offload
+vrf context SAP-IT_MGMT
+  ip route 0.0.0.0/0 172.19.76.1
+vrf context management
+  ip route 0.0.0.0/0 10.17.158.1
+vrf context vpc-keepalive
+port-channel load-balance ethernet source-dest-port
+vpc domain 345
+  peer-switch
+  role priority 20
+  system-priority 1
+  peer-keepalive destination 1.1.1.1 source 1.1.1.2 udp-port 3200 vrf default interval 1000 timeout 5 precedence 6  hold-timeout 3
+  peer-config-check-bypass
+  delay restore 150
+  no dual-active exclude interface-vlan
+  peer-gateway
+  no layer3 peer-router
+  auto-recovery reload-delay 240
+  delay restore interface-vlan 1
+  graceful consistency-check
+  fabricpath switch-id 1345
+  ip arp synchronize
+hardware proxy layer-3 replication rebalance-mode manual
+
+
+interface Vlan1
+  no description
+  shutdown
+  mtu 1500
+  bandwidth 1000000
+  delay 1
+  snmp trap link-status
+  carrier-delay msec 100
+  mac-address 00DE.FB91.FE41
+  no management
+
+interface Vlan750
+  no description
+  no shutdown
+  mtu 1500
+  bandwidth 1000000
+  delay 1
+  snmp trap link-status
+  carrier-delay msec 100
+  mac-address 00DE.FB91.FE41
+  no management
+  vrf member SAP-IT_MGMT
+  no ip redirects
+  ip address 172.19.77.158/23
+  no ipv6 redirects
+
+interface port-channel10
+  description ->dc12sw345_vpc-PEERLINK
+  switchport
+  switchport mode fabricpath
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type network
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed auto
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 80000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium p2p
+  vpc peer-link
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface port-channel20
+  description ->sw-a1s-cons-65
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  switchport trunk allowed vlan 100,762-763,765,768-769,773-774
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed auto
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send on
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 10000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  vpc 20
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface port-channel30
+  description sw-a1s-01/02,po30
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  spanning-tree guard root
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 40000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  vpc 30
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface port-channel31
+  description wdfdc4-cloudvpn-01
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  switchport trunk allowed vlan 1501
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed auto
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 10000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  vpc 31
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface port-channel32
+  description rotdc2-cloudvpn-01
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  switchport trunk allowed vlan 1501
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed auto
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 10000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  vpc 32
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface port-channel40
+  description ->dc12corefwc01 PROD
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  switchport trunk allowed vlan 2,17-21,23-24,28-34,36,38-43,48-49,52,58-60,62-65,67-73,76-85,88,90,92-93,95-96,104,112,128,130,132,136-137,144,148,150,152-154,156-157,160,168-169,192,195-198,201,203,224,243,245-246,248,251,253-255,332,430,460,470
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed 10000
+  duplex auto
+  flowcontrol receive on
+  flowcontrol send off
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 40000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  vpc 40
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface port-channel48
+  description ->dc12corefwc01-fp-01 CCL
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 20000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  vpc 48
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface port-channel49
+  description ->dc12corefwc01-fp-02 CCL
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 20000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  vpc 49
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface port-channel100
+  description dc12hanasw101/102
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  switchport trunk allowed vlan 40-41,48,50,100,136,460,750,762,769
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed 40000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 80000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  vpc 100
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface port-channel575
+  description ->sw-a1s-03
+  switchport
+  switchport mode fabricpath
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed auto
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 40000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium p2p
+  no shutdown
+
+interface port-channel576
+  description ->sw-a1s-04
+  switchport
+  switchport mode fabricpath
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  priority-flow-control mode auto
+  lacp suspend-individual
+  lacp min-links 1
+  lacp max-bundle 16
+  no port-channel port load-defer
+  lacp fast-select-hot-standby
+  lacp graceful-convergence
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  logging event port link-status default
+  logging event port trunk-status default
+  speed auto
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  bandwidth 40000000
+  no bandwidth inherit
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium p2p
+  no shutdown
+
+interface Ethernet1/1
+  description sw-a1s-01, eth4/20
+  shutdown
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+
+interface Ethernet1/2
+  description sw-a1s-01, eth8/19
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 30 mode active
+  no shutdown
+
+interface Ethernet1/3
+  description ->ise-prod-01_eth2
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport access vlan 470
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 1000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 1000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/4
+  description ->ise-prod-02_eth2
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport access vlan 470
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 1000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 1000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/5
+  description ->ise-prod-03_eth2
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport access vlan 470
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 1000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 1000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/6
+  description ->ise-prod-04_eth2
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport access vlan 470
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 1000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 1000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/7
+  description wdfdc4-cloudvpn-01,te1/0/8
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport trunk allowed vlan 1501
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 31 mode active
+  no shutdown
+
+interface Ethernet1/8
+  description rotdc2-cloudvpn-01,te1/0/8
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport trunk allowed vlan 1501
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 32 mode active
+  no shutdown
+
+interface Ethernet1/9
+  description sw-a1s-02, eth4/20
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 30 mode active
+  no shutdown
+
+interface Ethernet1/10
+  description sw-a1s-02, eth8/23
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 30 mode active
+  no shutdown
+
+interface Ethernet1/11
+  description sw-a1s-01, eth4/23
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 30 mode active
+  no shutdown
+
+interface Ethernet1/12
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/13
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/14
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/15
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/16
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/17
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/18
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/19
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/20
+  description *** Reserved for Proxy SG internal 2 | sgw3/4***
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/21
+  description *** Reserved for Proxy SG external 2 | sgw3/4***
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/22
+  description *** Reserved for Proxy SG mgmt 2 | sgw3/4***
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/23
+  description *** Reserved for Proxy SG internal 3 | sgw3/4***
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/24
+  description *** Reserved for Proxy SG external 3 | sgw3/4***
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/25
+  description *** Reserved for Proxy SG mgmt 3 | sgw3/4***
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/26
+  description ->dc12corefwc01-fp-01,et1/3
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport trunk allowed vlan 2,17-21,23-24,28-34,36,38-43,48-49,52,58-60,62-65,67-73,76-85,88,90,92-93,95-96,104,112,128,130,132,136-137,144,148,150,152-154,156-157,160,168-169,192,195-198,201,203,224,243,245-246,248,251,253-255,332,430,460,470
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive on
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 40 mode active
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface Ethernet1/27
+  description ->dc12corefwc01-fp-01,et1/4
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport trunk allowed vlan 2,17-21,23-24,28-34,36,38-43,48-49,52,58-60,62-65,67-73,76-85,88,90,92-93,95-96,104,112,128,130,132,136-137,144,148,150,152-154,156-157,160,168-169,192,195-198,201,203,224,243,245-246,248,251,253-255,332,430,460,470
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive on
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 40 mode active
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface Ethernet1/28
+  description ->dc12corefwc01-fp-01,et1/7
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 48 mode active
+  no shutdown
+
+interface Ethernet1/29
+  description ->dc12corefwc01-fp-01,et1/8
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 48 mode active
+  no shutdown
+
+interface Ethernet1/30
+  description ->dc12corefwc01-fp-02,et1/3
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport trunk allowed vlan 2,17-21,23-24,28-34,36,38-43,48-49,52,58-60,62-65,67-73,76-85,88,90,92-93,95-96,104,112,128,130,132,136-137,144,148,150,152-154,156-157,160,168-169,192,195-198,201,203,224,243,245-246,248,251,253-255,332,430,460,470
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive on
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 40 mode active
+  no shutdown
+
+interface Ethernet1/31
+  description ->dc12corefwc01-fp-02,et1/4
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport trunk allowed vlan 2,17-21,23-24,28-34,36,38-43,48-49,52,58-60,62-65,67-73,76-85,88,90,92-93,95-96,104,112,128,130,132,136-137,144,148,150,152-154,156-157,160,168-169,192,195-198,201,203,224,243,245-246,248,251,253-255,332,430,460,470
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive on
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 40 mode active
+  no shutdown
+
+interface Ethernet1/32
+  description ->dc12corefwc01-fp-02,et1/7
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 49 mode active
+  no shutdown
+
+interface Ethernet1/33
+  description ->dc12corefwc01-fp-02,et1/8
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type edge trunk
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 49 mode active
+  no shutdown
+
+interface Ethernet1/34
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/35
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/36
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/37
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/38
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/39
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/40
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/41
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/42
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/43
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/44
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/45
+  no description
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  no shutdown
+
+interface Ethernet1/46
+  no description
+  shutdown
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode access
+  switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+
+interface Ethernet1/47
+  description ->dc12sw345,eth1/47
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  no switchport
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  no mac-address
+  medium broadcast
+  no udld disable
+  ip address 1.1.1.2/30
+  no shutdown
+
+interface Ethernet1/48
+  description ->sw-a1s-cons-65;eth1/50
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport trunk allowed vlan 100,762-763,765,768-769,773-774
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 10000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send on
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 10000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 20 mode active
+  vtp 
+  switchport trunk pruning vlan 2-1001
+  no shutdown
+
+interface Ethernet2/1
+  description ->dc12sw345,Et2/1
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode fabricpath
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 40000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 40000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium p2p
+  no udld disable
+  channel-group 10 mode active
+  no shutdown
+
+interface Ethernet2/2
+  description -> sw-a1s-03,eth9/19
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode fabricpath
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 40000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 40000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium p2p
+  no udld disable
+  channel-group 575 mode active
+  no shutdown
+
+interface Ethernet2/3
+  description -> sw-a1s-04,eth9/19
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode fabricpath
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 40000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 40000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium p2p
+  no udld disable
+  channel-group 576 mode active
+  no shutdown
+
+interface Ethernet2/4
+  description ->dc12sw345,Et2/4
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode fabricpath
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 40000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 40000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium p2p
+  no udld disable
+  channel-group 10 mode active
+  no shutdown
+
+interface Ethernet2/5
+  description dc12hanasw101_et34
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport trunk allowed vlan 40-41,48,50,100,136,460,750,762,769
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 40000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 40000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 100 mode active
+  no shutdown
+
+interface Ethernet2/6
+  description dc12hanasw102_eth34
+  lacp port-priority 32768 
+  lacp rate normal
+  priority-flow-control mode auto
+  lldp transmit
+  lldp receive
+  no switchport block unicast
+  no switchport block multicast
+  hardware multicast hw-hash
+  no hardware vethernet mac filtering per-vlan
+  cdp enable
+  switchport
+  switchport mode trunk
+  no switchport monitor
+  no switchport dot1q ethertype
+  no switchport priority extend
+  switchport trunk allowed vlan 40-41,48,50,100,136,460,750,762,769
+  no encapsulation dynamic
+  spanning-tree port-priority 128
+  spanning-tree cost auto
+  spanning-tree link-type auto
+  spanning-tree port type normal
+  no spanning-tree bpduguard
+  no spanning-tree bpdufilter
+  speed 40000
+  duplex auto
+  flowcontrol receive off
+  flowcontrol send off
+  negotiate auto
+  linkdebounce time 100
+  link debounce link-up time 0
+  no beacon
+  mtu 1500
+  delay 1
+  snmp trap link-status
+  logging event port link-status default
+  logging event port trunk-status default
+  bandwidth 40000000
+  no bandwidth inherit
+  mdix auto
+  storm-control broadcast level 100.00
+  storm-control multicast level 100.00
+  storm-control unicast level 100.00
+  no shutdown lan
+  load-interval counter 1 30
+  load-interval counter 2 300
+  no load-interval counter 3
+  medium broadcast
+  no udld disable
+  channel-group 100 mode active
+  no shutdown
+
+interface mgmt0
+  description ->10.17.167.154 Eth1/30
+  speed auto
+  duplex auto
+  snmp trap link-status
+  no shutdown
+  lldp transmit
+  lldp receive
+  no cdp enable
+  vrf member management
+  ip address 10.17.158.189/23
+cli alias name sfia show fabricpath isis adjacency
+cli alias name sfis show fabricpath isis switch-id
+cli alias name q exit
+cli alias name sib show interface brief
+cli alias name sis show interface status
+cli alias name sisu show interface status | egrep up
+cli alias name siib show ip interface brief
+cli alias name sps show port-channel summary
+cli alias name svcg show vpc consis global
+cli alias name sv show vpc
+cli alias name svc show vpc consis
+cli alias name sibu show interface brief | egrep up
+cli alias name sfiib show fabricpath isis interface brief
+cli alias name sri show running | in
+cli alias name wr copy running start
+cli alias name sioib show ip ospf interface brief
+cli alias name svci show vpc consi interface
+cli alias name srb show running | begin
+no terminal log-all
+line console
+  exec-timeout 10
+  terminal length 24
+  terminal width 80
+line vty
+  session-limit 5
+  exec-timeout 10
+  absolute-timeout 0
+  access-class ACL_VTY in
+boot kickstart bootflash:/n6000-uk9-kickstart.7.3.2.N1.1.bin
+boot system bootflash:/n6000-uk9.7.3.2.N1.1.bin
+no boot poap enable
+no ip radius source-interface
+fabricpath domain default
+  graceful-restart
+  hostname dynamic
+  log-adjacency-changes
+  authentication-check
+ip load-sharing address source-destination universal-id 34600346
+ipv6 nd fast-path
+poap transit
+no system default switchport shutdown
+monitor session 1 type local
+  no description
+  no filter access-group
+  source interface port-channel100 both
+  destination interface Ethernet1/46
+  no shut
+xml server max-session 8
+no xml server validate all
+xml server timeout 1200
+fabricpath timers allocate-delay 10
+fabricpath timers linkup-delay 10
+fabricpath timers transition-delay 10
+fabricpath switch-id 346
+fabricpath load-balance source-destination 
+fabricpath load-balance unicast mixed rotate-amount 0x7 include-vlan 
+lldp holdtime 120
+lldp reinit 2
+lldp timer 30
+lldp tlv-select port-description
+lldp tlv-select system-name
+lldp tlv-select system-description
+lldp tlv-select system-capabilities
+lldp tlv-select management-address
+lldp tlv-select dcbxp
+lldp tlv-select port-vlan
+mac address-table aging-time 1800
+hardware profile route resource service-template hrt-128-stm-128
+hardware profile tcam resource template default
+  vacl 1024
+  ifacl 1152
+  qos 448
+  rbacl 1152
+  span 64
+no hardware access-list update default-result permit
+hardware access-list lou resource threshold 5
+no bloggerd log-dump all
+logging logfile log 6
+logging server 10.118.196.136 6 use-vrf SAP-IT_MGMT
+logging server 10.118.36.222 6 use-vrf SAP-IT_MGMT
+logging source-interface Vlan750
+logging timestamp milliseconds
+logging monitor 5
+no logging console
+logging origin-id hostname
+
+no bloggerd log-transfer
+
+
