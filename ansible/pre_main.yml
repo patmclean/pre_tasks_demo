@@ -1,0 +1,17 @@
+---
+# tasks file 
+- name: Showing pretasks vs tasks
+  hosts: localhost
+  vars:
+    passed_in_variable: This is the start
+
+  pre_tasks:
+    - name: change passed_in_variable something arbitrary
+      set_fact:
+        passed_in_variable: Changed in tasks before role in playbook
+    
+    - name: Display Variable in tasks
+      debug:
+        msg: "{{ passed_in_variable }}"
+  roles:
+    - test-role-1

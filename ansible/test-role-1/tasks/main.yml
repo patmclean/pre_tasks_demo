@@ -1,0 +1,5 @@
+---
+# tasks file for test-role-1
+- name: Display Variable in role
+  debug:
+    msg: "{{ passed_in_variable }}"
